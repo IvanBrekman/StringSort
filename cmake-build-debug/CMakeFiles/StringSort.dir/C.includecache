@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ivanbrekman/CLionProjects/StringSort/headers/standart_str_func.h
+
+/home/ivanbrekman/CLionProjects/StringSort/sources/standart_str_func.c
+stdio.h
+-
+malloc.h
+-
+assert.h
+-
+../headers/standart_str_func.h
+/home/ivanbrekman/CLionProjects/StringSort/headers/standart_str_func.h
+

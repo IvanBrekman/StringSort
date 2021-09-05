@@ -1,0 +1,3 @@
+/home/ivanbrekman/CLionProjects/StringSort/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/ivanbrekman/CLionProjects/StringSort/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/ivanbrekman/CLionProjects/StringSort/cmake-build-debug/CMakeFiles/StringSort.dir
