@@ -38,3 +38,17 @@ headers/file_funcs.h
 headers/errorlib.h
 /home/ivanbrekman/CLionProjects/StringSort/headers/errorlib.h
 
+/home/ivanbrekman/CLionProjects/StringSort/sources/string_funcs.c
+assert.h
+-
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+../headers/string_funcs.h
+/home/ivanbrekman/CLionProjects/StringSort/headers/string_funcs.h
+../headers/standard_str_func.h
+/home/ivanbrekman/CLionProjects/StringSort/headers/standard_str_func.h
+

@@ -9,7 +9,6 @@ CMakeFiles/StringSort.dir/main.c.o
  /home/ivanbrekman/CLionProjects/StringSort/headers/test.h
  /home/ivanbrekman/CLionProjects/StringSort/main.c
 CMakeFiles/StringSort.dir/sources/file_funcs.c.o
- /home/ivanbrekman/CLionProjects/StringSort/headers/errorlib.h
  /home/ivanbrekman/CLionProjects/StringSort/headers/file_funcs.h
  /home/ivanbrekman/CLionProjects/StringSort/headers/standard_str_func.h
  /home/ivanbrekman/CLionProjects/StringSort/headers/string_funcs.h
@@ -18,7 +17,6 @@ CMakeFiles/StringSort.dir/sources/standard_str_func.c.o
  /home/ivanbrekman/CLionProjects/StringSort/headers/standard_str_func.h
  /home/ivanbrekman/CLionProjects/StringSort/sources/standard_str_func.c
 CMakeFiles/StringSort.dir/sources/string_funcs.c.o
- /home/ivanbrekman/CLionProjects/StringSort/headers/errorlib.h
  /home/ivanbrekman/CLionProjects/StringSort/headers/standard_str_func.h
  /home/ivanbrekman/CLionProjects/StringSort/headers/string_funcs.h
  /home/ivanbrekman/CLionProjects/StringSort/sources/string_funcs.c

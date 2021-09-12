@@ -9,7 +9,6 @@
 
 #include "../headers/string_funcs.h"
 #include "../headers/standard_str_func.h"
-#include "../headers/errorlib.h"
 
 char PUNCTUATION_SYMBOLS[] = ",. -!@*()<>:;'\"\n";
 
@@ -61,24 +60,38 @@ int letters_in_string(char* string) {
     return 0;
 }
 
-int count(char* string, char symbol) {
-    int n = my_strlen(string);
-    int n_symbol = 0;
 
-    for (int i = 0; i < n; i++) {
-        if (string[i] == symbol) {
-            n_symbol++;
+//! Function filters data by strings with russian letters
+//! \param data pointer to strings
+//! \param size size of data
+//! \param new_size pointer to int where new size will be written
+//! \return pointer to array of "clear" strings
+char** clear_string_data(char** data, size_t size, int* new_size) {
+    char** new_data = (char**) calloc(size, sizeof(char*));
+
+    int j = 0;
+    for (int i = 0; i < size; i++) {
+        if (letters_in_string(data[i])) {
+            new_data[j++] = data[i];
         }
     }
-
-    return n_symbol;
+    *new_size = j;
+    return new_data;
 }
 
-int replace(char* string, char old_symbol, char new_symbol, int n_replace) {
-    int n = my_strlen(string);
+//! Function replaces old_symbol ti new_symbol in string n_replace times
+//! \param string pointer to string
+//! \param size size of string
+//! \param old_symbol old symbol
+//! \param new_symbol new symbol
+//! \param n_replace number or replacements (-1 if you want to replace all old symbols)
+//! \return number of replacements
+//! \note function need string size, because if you want to
+//!       replace '\0' symbol strlen function wont work correctly
+int replace(char* string, size_t size, char old_symbol, char new_symbol, int n_replace) {
     int n_rep = 0;
 
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < size; i++) {
         if (n_rep >= n_replace && n_replace >= 0) {
             break;
         }
@@ -91,12 +104,18 @@ int replace(char* string, char old_symbol, char new_symbol, int n_replace) {
     return n_rep;
 }
 
-int load_string_pointers(char** dest_array, char* string, size_t data_size) {
-    dest_array[0] = (char*)&string[0];
+
+//! Function load pointers of beginnings of strings to an array
+//! \param dest_array pointer to array, where ptr to strings will be written
+//! \param data analyzed data
+//! \param data_size data size
+//! \return 1
+int load_string_pointers(char** dest_array, char* data, size_t data_size) {
+    dest_array[0] = (char*)&data[0];
 
     for (int i = 0, j = 1; i < data_size - 1; i++) {
-        if (string[i] == '\0') {
-            dest_array[j++] = (char*)&string[i + 1];
+        if (data[i] == '\0') {
+            dest_array[j++] = (char*)&data[i + 1];
         }
     }
 
@@ -146,13 +165,12 @@ char** copy_str_array(char** source_array, size_t source_size, char** dest_array
 //! \param size size of array
 void print_array(char** array, size_t size) {
     assert(array != 0);
-    assert(size != 0);
 
     printf("[ ");
     for (int i = 0; i < size; i++) {
-        printf("%s ", array[i]);
+        printf("%s\n", array[i]);
     }
-    printf("]");
+    printf("]\n");
 }
 
 //! Function compare 2 strings (element-by-element from the beginning)
@@ -194,7 +212,14 @@ int cmp_string(const void* str1, const void* str2) {
 //!        -1 if string1 should stay before string2
 //!         0 if string1 equivalent with string2
 int rev_cmp_string(const void* str1, const void* str2) {
-    return cmp_string(reverse((char*)str1), reverse((char*)str2));
+    char* rev1 = reverse((char*)str1);
+    char* rev2 = reverse((char*)str2);
+    int cmp = cmp_string(rev1, rev2);
+
+    free(rev1);
+    free(rev2);
+
+    return cmp;
 }
 
 //! Function reverses string
@@ -219,7 +244,10 @@ char* reverse(char* string) {
 //! \note Function sorts elements in place
 void quick_sort(char** array, size_t size, int comparator(const void*, const void*)) {
     assert(array != NULL);
-    assert(size != 0);
+
+    if (size == 0) {
+        return;
+    }
 
     int i = 0;
     int j = (int)size - 1;

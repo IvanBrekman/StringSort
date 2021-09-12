@@ -6,10 +6,11 @@ int punctuation_symbol(char symbol);
 char* clear_string(char* string);
 int letters_in_string(char* string);
 int count(char* string, char symbol);
-int replace(char* string, char old_symbol, char new_symbol, int n_replace);
+int replace(char* string, size_t size, char old_symbol, char new_symbol, int n_replace);
 char* reverse(char* string);
 
-int load_string_pointers(char** dest_array, char* string, size_t data_size);
+char** clear_string_data(char** data, size_t size, int* new_size);
+int load_string_pointers(char** dest_array, char* data, size_t data_size);
 int equal_arrays(char** array1, int size1, char** array2, size_t size2);
 char** copy_str_array(char** source_array, size_t source_size, char** dest_array);
 void print_array(char** array, size_t size);

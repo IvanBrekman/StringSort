@@ -1,4 +1,3 @@
-#include <assert.h>
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
@@ -7,13 +6,16 @@
 #include "headers/standard_str_func.h"
 #include "headers/string_funcs.h"
 #include "headers/file_funcs.h"
-#include "headers/errorlib.h"
 
-const char HOME_DIR[] = "/home/ivanbrekman/CLionProjects/StringSort/text_files/"; // try to fix
+const char HOME_DIR[] = "/home/ivanbrekman/CLionProjects/StringSort/text_files/";
+const char* BLOCK_DELIMITERS[] = {
+        "**************************************************************************************************************************************************",
+        "==================================================================================================================================================",
+        "**************************************************************************************************************************************************"
+};
 
 int main(int argc, char** argv) {
-    //test_string_sort();
-    print_array(argv, argc);
+    test_string_sort();
 
     char* in_filename = (char*)calloc(80, sizeof(char));
     char* out_filename = (char*)calloc(80, sizeof(char));
@@ -37,32 +39,39 @@ int main(int argc, char** argv) {
     out_path = my_strcpy(out_path, HOME_DIR);
     out_path = my_strcat(out_path, out_filename);
 
-    int n_strings = -1;
-    char** data = get_strings_from_file(in_path, &n_strings);
-    print_array(data, n_strings);
+    free(in_filename);
+    free(out_filename);
 
-    assert(n_strings > 0);
-    assert(data != NULL);
 
-    for (int i = 0; i < n_strings; i++) printf("%p ", data[i]); //
-    printf("\n"); //
+    int f_size = -1, n_strings = -1;
+    char* data = get_data_from_file(in_path, &f_size);
+    n_strings = replace(data, f_size, '\n', '\0', -1);
 
-    quick_sort(data, n_strings, rev_cmp_string);
-    int n_wr_str = write_strings_to_file(out_path, data, n_strings);
+    char** strings = (char**)calloc(n_strings, sizeof(char*));
+    load_string_pointers(strings, data, f_size);
 
-    for (int i = 0; i < n_strings; i++) printf("%p ", data[i]); //
-    dbg();
+    int new_size = -1;
+    char** clear_strings = clear_string_data(strings, n_strings, &new_size);
+    free(strings);
 
-    for (int i = 0; i < n_strings; i++) {
-        dbg(printf("%p\n", data[i]););
-        dbg();
-        free(data[i]);
-    }
+
+    quick_sort(clear_strings, new_size, cmp_string);
+    write_strings_to_file(out_path, "w", clear_strings, new_size);
+    write_strings_to_file(out_path, "a", (char**)BLOCK_DELIMITERS, 3);
+
+    quick_sort(clear_strings, new_size, rev_cmp_string);
+    write_strings_to_file(out_path, "a", clear_strings, new_size);
+    write_strings_to_file(out_path, "a", (char**)BLOCK_DELIMITERS, 3);
+
+    char** ptr_to_orig = &data;
+    replace(data, f_size, '\0', '\n', -1);
+    write_strings_to_file(out_path, "a", ptr_to_orig, 1);
+
+
+    printf("Текст отсортирован и записан в файл: %s\n", out_path);
+
+    free(clear_strings);
     free(data);
-
-    assert(n_strings == n_wr_str);
-
-    printf("Текст отсортирован и записан в файл: %s", out_path);
 
     return 0;
 }
