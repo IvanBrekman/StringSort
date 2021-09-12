@@ -11,13 +11,14 @@
 #include "../headers/string_funcs.h"
 #include "../headers/file_funcs.h"
 #include "../headers/standard_str_func.h"
+#include "../headers/errorlib.h"
 
 //! Function opens file
 //! \param filename path to file to open
 //! \param mode mode with which open file
 //! \return pointer to opened file (FILE*)
 //! \note call assert if function cannot open file on the path filename
-FILE* open_file(c_string filename, char mode[5]) {
+FILE* open_file(char* filename, char mode[5]) {
     assert(filename != NULL);
 
     FILE* file;
@@ -28,36 +29,13 @@ FILE* open_file(c_string filename, char mode[5]) {
     return file;
 }
 
-//! FILE !!!!!!!!!!!!!!!!!!!!!!!!
-//! \param filename
-//! \return
-int count_lines(c_string filename) {
-    assert(filename != NULL);
-
-    FILE* file = open_file(filename, "r");
-    if (file == NULL) {
-        return NULL_FILE_PTR;
-    }
-
-    char str[MAX_STRING_LENGTH] = {};
-
-    int lines = 0;
-    while (fgets(str, MAX_STRING_LENGTH, file) != NULL) {
-        lines++;
-    }
-
-    fclose(file);
-
-    return lines;
-}
-
 //! Function reads strings from file
 //! \param filename pointer to string of path to file
 //! \param n_strings pointer to value where will be written the number of strings
 //! \return pointer to array of strings
 //! \note if function wont be able to open file NULL_FILE_PTR will be written in n_strings
 //!       and function will return NULL
-c_string* get_strings_from_file(c_string filename, int* n_strings) {
+char** get_strings_from_file(char* filename, int* n_strings) {
     assert(filename != NULL);
     assert(n_strings != NULL);
 
@@ -67,20 +45,25 @@ c_string* get_strings_from_file(c_string filename, int* n_strings) {
         return NULL;
     }
 
-    *n_strings = count_lines(filename);
-    c_string* result = calloc(*n_strings, sizeof(c_string));
+    struct stat buff;
+    stat(filename, &buff);
+    int f_size = (int)buff.st_size;
+    printf("%zd\n", buff.st_size);
 
-    int i = 0;
-    char str[MAX_STRING_LENGTH] = {};
-    while (my_fgets(str, MAX_STRING_LENGTH, file) != NULL) {
-        result[i] = calloc(MAX_STRING_LENGTH, sizeof(char));
-
-        int real_size = my_strlen(str) + 1;
-        result[i] = realloc(result[i], real_size * sizeof(char));
-        my_strcpy(result[i++], str);
+    char* data = calloc(f_size + 1, sizeof(char));
+    if (data[buff.st_size - 1] != '\n') {
+        data[buff.st_size] = '\n';
+        f_size++;
     }
-    fclose(file);
 
+    fread(data, sizeof(char), f_size, file);
+    *n_strings = replace(data, '\n', '\0', -1);
+    printf("lines: %d\n%s\n", *n_strings, data);
+
+    char** result = calloc(*n_strings, sizeof(char*));
+    load_string_pointers(result, data, f_size);
+    
+    fclose(file);
     return result;
 }
 
@@ -91,7 +74,7 @@ c_string* get_strings_from_file(c_string filename, int* n_strings) {
 //! \param n_strings number of strings to write
 //! \return number of written strings
 //! \note if function cant be able to open file, it will return NULL_FILE_PTR
-int write_strings_to_file(c_string filename, c_string* data, int n_strings) {
+int write_strings_to_file(char* filename, char** data, int n_strings) {
     assert(filename != NULL);
     assert(data != NULL);
     assert(n_strings > 0);

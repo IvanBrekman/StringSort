@@ -1,1 +1,1 @@
-g++  -fpermissive -g CMakeFiles/StringSort.dir/main.c.o CMakeFiles/StringSort.dir/sources/string_funcs.c.o CMakeFiles/StringSort.dir/sources/file_funcs.c.o CMakeFiles/StringSort.dir/sources/test.c.o CMakeFiles/StringSort.dir/sources/standart_str_func.c.o -o StringSort 
+g++  -fpermissive -g CMakeFiles/StringSort.dir/main.c.o CMakeFiles/StringSort.dir/sources/string_funcs.c.o CMakeFiles/StringSort.dir/sources/file_funcs.c.o CMakeFiles/StringSort.dir/sources/test.c.o CMakeFiles/StringSort.dir/sources/standard_str_func.c.o -o StringSort 

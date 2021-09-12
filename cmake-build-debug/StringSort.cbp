@@ -85,7 +85,7 @@
 		<Unit filename="/home/ivanbrekman/CLionProjects/StringSort/sources/file_funcs.c">
 			<Option target="StringSort"/>
 		</Unit>
-		<Unit filename="/home/ivanbrekman/CLionProjects/StringSort/sources/standart_str_func.c">
+		<Unit filename="/home/ivanbrekman/CLionProjects/StringSort/sources/standard_str_func.c">
 			<Option target="StringSort"/>
 		</Unit>
 		<Unit filename="/home/ivanbrekman/CLionProjects/StringSort/sources/string_funcs.c">

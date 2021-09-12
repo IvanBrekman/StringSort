@@ -118,18 +118,18 @@ CMakeFiles/StringSort.dir/sources/test.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/StringSort.dir/sources/test.c.s"
 	g++ $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/ivanbrekman/CLionProjects/StringSort/sources/test.c -o CMakeFiles/StringSort.dir/sources/test.c.s
 
-CMakeFiles/StringSort.dir/sources/standart_str_func.c.o: CMakeFiles/StringSort.dir/flags.make
-CMakeFiles/StringSort.dir/sources/standart_str_func.c.o: ../sources/standart_str_func.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ivanbrekman/CLionProjects/StringSort/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/StringSort.dir/sources/standart_str_func.c.o"
-	g++ $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/StringSort.dir/sources/standart_str_func.c.o -c /home/ivanbrekman/CLionProjects/StringSort/sources/standart_str_func.c
+CMakeFiles/StringSort.dir/sources/standard_str_func.c.o: CMakeFiles/StringSort.dir/flags.make
+CMakeFiles/StringSort.dir/sources/standard_str_func.c.o: ../sources/standard_str_func.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ivanbrekman/CLionProjects/StringSort/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/StringSort.dir/sources/standard_str_func.c.o"
+	g++ $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/StringSort.dir/sources/standard_str_func.c.o -c /home/ivanbrekman/CLionProjects/StringSort/sources/standard_str_func.c
 
-CMakeFiles/StringSort.dir/sources/standart_str_func.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/StringSort.dir/sources/standart_str_func.c.i"
-	g++ $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/ivanbrekman/CLionProjects/StringSort/sources/standart_str_func.c > CMakeFiles/StringSort.dir/sources/standart_str_func.c.i
+CMakeFiles/StringSort.dir/sources/standard_str_func.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/StringSort.dir/sources/standard_str_func.c.i"
+	g++ $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/ivanbrekman/CLionProjects/StringSort/sources/standard_str_func.c > CMakeFiles/StringSort.dir/sources/standard_str_func.c.i
 
-CMakeFiles/StringSort.dir/sources/standart_str_func.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/StringSort.dir/sources/standart_str_func.c.s"
-	g++ $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/ivanbrekman/CLionProjects/StringSort/sources/standart_str_func.c -o CMakeFiles/StringSort.dir/sources/standart_str_func.c.s
+CMakeFiles/StringSort.dir/sources/standard_str_func.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/StringSort.dir/sources/standard_str_func.c.s"
+	g++ $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/ivanbrekman/CLionProjects/StringSort/sources/standard_str_func.c -o CMakeFiles/StringSort.dir/sources/standard_str_func.c.s
 
 # Object files for target StringSort
 StringSort_OBJECTS = \
@@ -137,7 +137,7 @@ StringSort_OBJECTS = \
 "CMakeFiles/StringSort.dir/sources/string_funcs.c.o" \
 "CMakeFiles/StringSort.dir/sources/file_funcs.c.o" \
 "CMakeFiles/StringSort.dir/sources/test.c.o" \
-"CMakeFiles/StringSort.dir/sources/standart_str_func.c.o"
+"CMakeFiles/StringSort.dir/sources/standard_str_func.c.o"
 
 # External object files for target StringSort
 StringSort_EXTERNAL_OBJECTS =
@@ -146,7 +146,7 @@ StringSort: CMakeFiles/StringSort.dir/main.c.o
 StringSort: CMakeFiles/StringSort.dir/sources/string_funcs.c.o
 StringSort: CMakeFiles/StringSort.dir/sources/file_funcs.c.o
 StringSort: CMakeFiles/StringSort.dir/sources/test.c.o
-StringSort: CMakeFiles/StringSort.dir/sources/standart_str_func.c.o
+StringSort: CMakeFiles/StringSort.dir/sources/standard_str_func.c.o
 StringSort: CMakeFiles/StringSort.dir/build.make
 StringSort: CMakeFiles/StringSort.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ivanbrekman/CLionProjects/StringSort/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C executable StringSort"

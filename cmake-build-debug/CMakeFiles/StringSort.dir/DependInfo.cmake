@@ -10,7 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_C
   "/home/ivanbrekman/CLionProjects/StringSort/main.c" "/home/ivanbrekman/CLionProjects/StringSort/cmake-build-debug/CMakeFiles/StringSort.dir/main.c.o"
   "/home/ivanbrekman/CLionProjects/StringSort/sources/file_funcs.c" "/home/ivanbrekman/CLionProjects/StringSort/cmake-build-debug/CMakeFiles/StringSort.dir/sources/file_funcs.c.o"
-  "/home/ivanbrekman/CLionProjects/StringSort/sources/standart_str_func.c" "/home/ivanbrekman/CLionProjects/StringSort/cmake-build-debug/CMakeFiles/StringSort.dir/sources/standart_str_func.c.o"
+  "/home/ivanbrekman/CLionProjects/StringSort/sources/standard_str_func.c" "/home/ivanbrekman/CLionProjects/StringSort/cmake-build-debug/CMakeFiles/StringSort.dir/sources/standard_str_func.c.o"
   "/home/ivanbrekman/CLionProjects/StringSort/sources/string_funcs.c" "/home/ivanbrekman/CLionProjects/StringSort/cmake-build-debug/CMakeFiles/StringSort.dir/sources/string_funcs.c.o"
   "/home/ivanbrekman/CLionProjects/StringSort/sources/test.c" "/home/ivanbrekman/CLionProjects/StringSort/cmake-build-debug/CMakeFiles/StringSort.dir/sources/test.c.o"
   )

@@ -12,23 +12,23 @@
 #include "../headers/standard_str_func.h"
 
 struct compare_data {
-    c_string string1;
-    c_string string2;
+    char* string1;
+    char* string2;
 
     int result;
 };
 
 struct sort_data {
-    c_string init_array[10];
+    char* init_array[10];
     int array_size;
 
-    c_string sorted_array[10];
+    char* sorted_array[10];
 };
 
 struct clear_string_data {
-    c_string init_string;
+    char* init_string;
 
-    c_string clear_string;
+    char* clear_string;
 };
 
 int test_string_sort() {
@@ -98,7 +98,7 @@ int test_sort_func() {
 
         int size = s_data[i].array_size;
 
-        c_string* array = calloc(size, sizeof(c_string));
+        char** array = calloc(size, sizeof(char*));
         copy_str_array(s_data[i].init_array, size, array);
 
         quick_sort(array, size, cmp_string);
@@ -134,7 +134,7 @@ int test_clear_string_func() {
     int error_status = 0;
 
     for (int i = 0; i < n; i++) {
-        c_string res_string = clear_string(data[i].init_string);
+        char* res_string = clear_string(data[i].init_string);
 
         printf("Test №%d: ", i + 1);
         if (cmp_string(res_string, data[i].clear_string) == 0) {

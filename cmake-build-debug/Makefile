@@ -177,29 +177,29 @@ sources/file_funcs.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/StringSort.dir/build.make CMakeFiles/StringSort.dir/sources/file_funcs.c.s
 .PHONY : sources/file_funcs.c.s
 
-sources/standart_str_func.o: sources/standart_str_func.c.o
-.PHONY : sources/standart_str_func.o
+sources/standard_str_func.o: sources/standard_str_func.c.o
+.PHONY : sources/standard_str_func.o
 
 # target to build an object file
-sources/standart_str_func.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/StringSort.dir/build.make CMakeFiles/StringSort.dir/sources/standart_str_func.c.o
-.PHONY : sources/standart_str_func.c.o
+sources/standard_str_func.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/StringSort.dir/build.make CMakeFiles/StringSort.dir/sources/standard_str_func.c.o
+.PHONY : sources/standard_str_func.c.o
 
-sources/standart_str_func.i: sources/standart_str_func.c.i
-.PHONY : sources/standart_str_func.i
+sources/standard_str_func.i: sources/standard_str_func.c.i
+.PHONY : sources/standard_str_func.i
 
 # target to preprocess a source file
-sources/standart_str_func.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/StringSort.dir/build.make CMakeFiles/StringSort.dir/sources/standart_str_func.c.i
-.PHONY : sources/standart_str_func.c.i
+sources/standard_str_func.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/StringSort.dir/build.make CMakeFiles/StringSort.dir/sources/standard_str_func.c.i
+.PHONY : sources/standard_str_func.c.i
 
-sources/standart_str_func.s: sources/standart_str_func.c.s
-.PHONY : sources/standart_str_func.s
+sources/standard_str_func.s: sources/standard_str_func.c.s
+.PHONY : sources/standard_str_func.s
 
 # target to generate assembly for a file
-sources/standart_str_func.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/StringSort.dir/build.make CMakeFiles/StringSort.dir/sources/standart_str_func.c.s
-.PHONY : sources/standart_str_func.c.s
+sources/standard_str_func.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/StringSort.dir/build.make CMakeFiles/StringSort.dir/sources/standard_str_func.c.s
+.PHONY : sources/standard_str_func.c.s
 
 sources/string_funcs.o: sources/string_funcs.c.o
 .PHONY : sources/string_funcs.o
@@ -264,9 +264,9 @@ help:
 	@echo "... sources/file_funcs.o"
 	@echo "... sources/file_funcs.i"
 	@echo "... sources/file_funcs.s"
-	@echo "... sources/standart_str_func.o"
-	@echo "... sources/standart_str_func.i"
-	@echo "... sources/standart_str_func.s"
+	@echo "... sources/standard_str_func.o"
+	@echo "... sources/standard_str_func.i"
+	@echo "... sources/standard_str_func.s"
 	@echo "... sources/string_funcs.o"
 	@echo "... sources/string_funcs.i"
 	@echo "... sources/string_funcs.s"
