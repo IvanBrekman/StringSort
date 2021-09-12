@@ -5,3 +5,4 @@
 int test_string_sort();
 int test_cmp_func();
 int test_sort_func();
+int test_clear_string_func();

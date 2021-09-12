@@ -6,8 +6,7 @@
 #include <malloc.h>
 #include <assert.h>
 
-#include "../headers/standart_str_func.h"
-#define dbg(code) do{ printf("%s:%d\n", __FILE__, __LINE__); code }while(0) // liberror.h (color)
+#include "../headers/standard_str_func.h"
 
 int my_puts(const char* str) { // big endian, little endian (порядок байтов в памяти)
     fwrite(str, sizeof(char), my_strlen(str), stdout);

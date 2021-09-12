@@ -4,16 +4,14 @@
 #include <string.h>
 
 #include "headers/test.h"
-#include "headers/standart_str_func.h"
+#include "headers/standard_str_func.h"
 #include "headers/string_funcs.h"
 #include "headers/file_funcs.h"
-
-#define dbg(code) do{ printf("%s:%d\n", __FILE__, __LINE__); code }while(0) // liberror.h (color)
 
 const char HOME_DIR[] = "/home/ivanbrekman/CLionProjects/StringSort/text_files/"; // try to fix
 
 int main() {
-    test_string_sort();
+    //test_string_sort();
 
     c_string in_filename = calloc(80, sizeof(char));
     c_string out_filename = calloc(80, sizeof(char));
@@ -37,7 +35,7 @@ int main() {
 
     assert(n_strings > 0 && data != NULL);
 
-    quick_sort(data, n_strings, -1, 0);
+    quick_sort(data, n_strings, rev_cmp_string);
     int n_wr_str = write_strings_to_file(out_path, data, n_strings);
 
     for (int i = 0; i < n_strings; i++) {

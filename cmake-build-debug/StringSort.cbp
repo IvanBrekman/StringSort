@@ -76,6 +76,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/ivanbrekman/CLionProjects/StringSort/headers/errorlib.h">
+			<Option target="StringSort"/>
+		</Unit>
 		<Unit filename="/home/ivanbrekman/CLionProjects/StringSort/main.c">
 			<Option target="StringSort"/>
 		</Unit>

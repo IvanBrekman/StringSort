@@ -9,7 +9,7 @@
 #include "../headers/test.h"
 #include "../headers/file_funcs.h"
 #include "../headers/string_funcs.h"
-#include "../headers/standart_str_func.h"
+#include "../headers/standard_str_func.h"
 
 struct compare_data {
     c_string string1;
@@ -25,9 +25,16 @@ struct sort_data {
     c_string sorted_array[10];
 };
 
+struct clear_string_data {
+    c_string init_string;
+
+    c_string clear_string;
+};
+
 int test_string_sort() {
     test_cmp_func();
     test_sort_func();
+    test_clear_string_func();
 
     printf("End of testing\n---------------------------------------------\n\n");
     return 1;
@@ -49,6 +56,7 @@ int test_cmp_func() {
     };
 
     size_t n = sizeof(data) / sizeof(data[0]);
+    int error_status = 0;
 
     for (int i = 0; i < n; i++) {
         int return_code = cmp_string(data[i].string1, data[i].string2);
@@ -57,6 +65,7 @@ int test_cmp_func() {
         if (return_code == data[i].result) {
             printf("OK\n");
         } else {
+            error_status = 1;
             printf("Failed - expected: %2d,\n"
                    "                       got: %2d.\n"
                    "                Input data: \"%s\", \"%s\"\n",
@@ -65,7 +74,7 @@ int test_cmp_func() {
     }
     printf("\n\n");
 
-    return 1;
+    return !error_status;
 }
 
 int test_sort_func() {
@@ -83,6 +92,7 @@ int test_sort_func() {
                 }
     };
     int n = sizeof(s_data) / sizeof(s_data[0]);
+    int error_status = 0;
 
     for (int i = 0; i < n; i++) {
 
@@ -91,12 +101,13 @@ int test_sort_func() {
         c_string* array = calloc(size, sizeof(c_string));
         copy_str_array(s_data[i].init_array, size, array);
 
-        quick_sort(array, size, -1, 0);
+        quick_sort(array, size, cmp_string);
 
         printf("Test №%d: ", i + 1);
         if (equal_arrays(array, size, s_data[i].sorted_array, size)) {
             printf("OK\n");
         } else {
+            error_status = 1;
             printf("Failed - expected: ");
             print_array(s_data[i].sorted_array, size);
             printf(",\n                       got: ");
@@ -108,7 +119,36 @@ int test_sort_func() {
     }
     printf("\n\n");
 
-    return 1;
+    return !error_status;
+}
+
+int test_clear_string_func() {
+    printf("Testing clear_string function\n");
+    struct clear_string_data data[] = {
+            {              "123, 12, 13 asdashhfd !!!---,,,",           "1231213asdashhfd" },
+            {                                "!!!!-----....",                           "" },
+            { "agasdgadsv123    ash 12364   -23123, \"\"\"'", "gasdgadsv123ash1236423123" }
+    };
+
+    size_t n = sizeof(data) / sizeof(data[0]);
+    int error_status = 0;
+
+    for (int i = 0; i < n; i++) {
+        c_string res_string = clear_string(data[i].init_string);
+
+        printf("Test №%d: ", i + 1);
+        if (cmp_string(res_string, data[i].clear_string) == 0) {
+            printf("OK\n");
+        } else {
+            error_status = 1;
+            printf("Failed - expected: \"%s\"\n", data[i].clear_string);
+            printf("                       got: \"%s\"\n", res_string);
+            printf("                Input data: \"%s\"\n", data[i].init_string);
+        }
+    }
+    printf("\n\n");
+
+    return !error_status;
 }
 
 int test_std_string_func() {
@@ -142,4 +182,5 @@ int test_std_string_func() {
     getchar();
     getchar();
 
+    return 1;
 }

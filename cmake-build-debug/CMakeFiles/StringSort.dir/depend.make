@@ -16,6 +16,7 @@ CMakeFiles/StringSort.dir/sources/standart_str_func.c.o: \
  ../headers/standart_str_func.h \
  ../sources/standart_str_func.c
 CMakeFiles/StringSort.dir/sources/string_funcs.c.o: \
+ ../headers/standart_str_func.h \
  ../headers/string_funcs.h \
  ../sources/string_funcs.c
 CMakeFiles/StringSort.dir/sources/test.c.o: \
