@@ -4,7 +4,8 @@
 
 #include <stddef.h>
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "../headers/test.h"
 #include "../headers/file_funcs.h"
@@ -25,16 +26,9 @@ struct sort_data {
     char* sorted_array[10];
 };
 
-struct clear_string_data {
-    char* init_string;
-
-    char* clear_string;
-};
-
 int test_string_sort() {
     test_cmp_func();
     test_sort_func();
-    test_clear_string_func();
 
     printf("End of testing\n---------------------------------------------\n\n");
     return 1;
@@ -43,12 +37,12 @@ int test_string_sort() {
 int test_cmp_func() {
     printf("Testing compare function\n");
     struct compare_data data[] = {
-            {            "a",         "b", -1 },
-            {           "aa",        "ab",  1 },
+            {            "1",         "9", -1 },
+            {           "aa",        "ab", -1 },
             {            "a",         "a",  0 },
-            { "ghsiduhdfndj", "ghsiduhdf",  1 },
-            {     "aaaaaaaa",    "aaaaaa",  1 },
-            {         "Test",      "test",  1 },
+            { "ghsiduhdfndj", "ghsiduhdf",  3 },
+            {     "aaaaaaaa",    "aaaaaa",  2 },
+            {         "Test",      "test", -1 },
             {         "TEST",      "TESt", -1 },
             {    "123abc123", "123abc321", -1 },
             {             "",          "",  0 },
@@ -59,7 +53,7 @@ int test_cmp_func() {
     int error_status = 0;
 
     for (int i = 0; i < n; i++) {
-        int return_code = cmp_string(data[i].string1, data[i].string2);
+        int return_code = cmp_string_raw(data[i].string1, data[i].string2);
 
         printf("Test №%d: ", i + 1);
         if (return_code == data[i].result) {
@@ -81,15 +75,15 @@ int test_sort_func() {
     printf("Testing sort function\n");
     struct sort_data s_data[] = {
             {
-                {"d", "r", "c", "a", "b", "z", "x", "y", "w", "e"},
+                {"1", "9", "8", "7", "6", "5", "4", "2", "0", "3"},
                 10,
                 {"b", "a", "c", "d", "e", "r", "w", "x", "y", "z"}
-                },
-                {
-                {"KaIPLbxADslJGghf","PyOgCYDeVXSGneOY","KElNEPxvzKTDDrHY","ZGyyIlfqoCadPaxy","YoVZoYBdFVrSMEjT","OBqcrmTDWHUiTwNC","OcoavApvhbsOubrB","ldvxeXTdqwDTleOo","ETVLUOpVsboHYVHm","sBvyNqDMOFcgTJQk"},
-                10,
-                {"ETVLUOpVsboHYVHm","KElNEPxvzKTDDrHY","KaIPLbxADslJGghf","OBqcrmTDWHUiTwNC","OcoavApvhbsOubrB","PyOgCYDeVXSGneOY","YoVZoYBdFVrSMEjT","ZGyyIlfqoCadPaxy","ldvxeXTdqwDTleOo","sBvyNqDMOFcgTJQk"}
-                }
+            },
+                //{
+                //{"KaIPLbxADslJGghf","PyOgCYDeVXSGneOY","KElNEPxvzKTDDrHY","ZGyyIlfqoCadPaxy","YoVZoYBdFVrSMEjT","OBqcrmTDWHUiTwNC","OcoavApvhbsOubrB","ldvxeXTdqwDTleOo","ETVLUOpVsboHYVHm","sBvyNqDMOFcgTJQk"},
+                //10,
+                //{"ETVLUOpVsboHYVHm","KElNEPxvzKTDDrHY","KaIPLbxADslJGghf","OBqcrmTDWHUiTwNC","OcoavApvhbsOubrB","PyOgCYDeVXSGneOY","YoVZoYBdFVrSMEjT","ZGyyIlfqoCadPaxy","ldvxeXTdqwDTleOo","sBvyNqDMOFcgTJQk"}
+                //}
     };
     int n = sizeof(s_data) / sizeof(s_data[0]);
     int error_status = 0;
@@ -99,51 +93,23 @@ int test_sort_func() {
         int size = s_data[i].array_size;
 
         char** array = calloc(size, sizeof(char*));
-        copy_str_array(s_data[i].init_array, size, array);
+        memcpy(array, s_data[i].init_array, sizeof(s_data[i].init_array));
+        print_strings((const char**)array, size);
 
-        quick_sort(array, size, cmp_string);
+        qsort(array, size, sizeof(array[0]), cmp_string_raw);
 
         printf("Test №%d: ", i + 1);
-        if (equal_arrays(array, size, s_data[i].sorted_array, size)) {
+        if (equal_strings_array((const char**)array, size, (const char**)s_data[i].sorted_array, size)) {
             printf("OK\n");
         } else {
             error_status = 1;
             printf("Failed - expected: ");
-            print_array(s_data[i].sorted_array, size);
+            print_strings((const char**)s_data[i].sorted_array, size);
             printf(",\n                       got: ");
-            print_array(array, size);
+            print_strings((const char**)array, size);
             printf(".\n                Input data: ");
-            print_array(s_data[i].init_array, size);
+            print_strings((const char**)s_data[i].init_array, size);
             printf("\n");
-        }
-    }
-    printf("\n\n");
-
-    return !error_status;
-}
-
-int test_clear_string_func() {
-    printf("Testing clear_string function\n");
-    struct clear_string_data data[] = {
-            {              "123, 12, 13 asdashhfd !!!---,,,",           "1231213asdashhfd" },
-            {                                "!!!!-----....",                           "" },
-            { "agasdgadsv123    ash 12364   -23123, \"\"\"'", "gasdgadsv123ash1236423123" }
-    };
-
-    size_t n = sizeof(data) / sizeof(data[0]);
-    int error_status = 0;
-
-    for (int i = 0; i < n; i++) {
-        char* res_string = clear_string(data[i].init_string);
-
-        printf("Test №%d: ", i + 1);
-        if (cmp_string(res_string, data[i].clear_string) == 0) {
-            printf("OK\n");
-        } else {
-            error_status = 1;
-            printf("Failed - expected: \"%s\"\n", data[i].clear_string);
-            printf("                       got: \"%s\"\n", res_string);
-            printf("                Input data: \"%s\"\n", data[i].init_string);
         }
     }
     printf("\n\n");

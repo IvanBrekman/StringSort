@@ -8,47 +8,16 @@
 #include <string.h>
 
 #include "../headers/string_funcs.h"
-#include "../headers/standard_str_func.h"
-
-char PUNCTUATION_SYMBOLS[] = ",. -!@*()<>:;'\"\n";
-
-//! Function checks if symbol is punctuation symbol
-//! \param symbol tested symbol
-//! \return 1 if symbol is punctuation symbol else 0
-int punctuation_symbol(char symbol) {
-    for (int i = 0; i < sizeof(PUNCTUATION_SYMBOLS) - 1; i++) {
-        if (symbol == PUNCTUATION_SYMBOLS[i]) {
-            return 1;
-        }
-    }
-    return 0;
-}
-
-//! Function copies string to new string without punctuation symbols
-//! \param string pointer to source string
-//! \return pointer to new string without punctuation symbols
-//! \note function allocate memory for new string itself (sizeof(new string) == (sizeof(string))
-char* clear_string(char* string) {
-    int size = my_strlen(string);
-    char* clear_string = (char*) calloc(size, sizeof(char));
-
-    int j = 0;
-    for (int i = 0; i < size; i++) {
-        if (!punctuation_symbol(string[i])) {
-            clear_string[j] = string[i];
-            j++;
-        }
-    }
-    clear_string[j] = '\0';
-
-    return clear_string;
-}
+#include "../headers/file_funcs.h"
+#include "../headers/errorlib.h"
 
 //! Experimental function to detect russian letters in string
 //! \param string pointer to string
 //! \return 1 if russian letters in string else 0
 int letters_in_string(char* string) {
-    int n = my_strlen(string);
+    assert(string != NULL);
+
+    int n = (int)strlen(string);
     for (int i = 0; i < n; i++) {
         int code = (int)string[i];
 
@@ -60,35 +29,18 @@ int letters_in_string(char* string) {
     return 0;
 }
 
-
-//! Function filters data by strings with russian letters
-//! \param data pointer to strings
-//! \param size size of data
-//! \param new_size pointer to int where new size will be written
-//! \return pointer to array of "clear" strings
-char** clear_string_data(char** data, size_t size, int* new_size) {
-    char** new_data = (char**) calloc(size, sizeof(char*));
-
-    int j = 0;
-    for (int i = 0; i < size; i++) {
-        if (letters_in_string(data[i])) {
-            new_data[j++] = data[i];
-        }
-    }
-    *new_size = j;
-    return new_data;
-}
-
 //! Function replaces old_symbol ti new_symbol in string n_replace times
-//! \param string pointer to string
-//! \param size size of string
+//! \param string     pointer to string
+//! \param size       size of string
 //! \param old_symbol old symbol
 //! \param new_symbol new symbol
-//! \param n_replace number or replacements (-1 if you want to replace all old symbols)
-//! \return number of replacements
+//! \param n_replace  number or replacements (-1 if you want to replace all old symbols)
+//! \return           number of replacements
 //! \note function need string size, because if you want to
 //!       replace '\0' symbol strlen function wont work correctly
 int replace(char* string, size_t size, char old_symbol, char new_symbol, int n_replace) {
+    assert(string != NULL);
+
     int n_rep = 0;
 
     for (int i = 0; i < size; i++) {
@@ -104,71 +56,35 @@ int replace(char* string, size_t size, char old_symbol, char new_symbol, int n_r
     return n_rep;
 }
 
-
-//! Function load pointers of beginnings of strings to an array
-//! \param dest_array pointer to array, where ptr to strings will be written
-//! \param data analyzed data
-//! \param data_size data size
-//! \return 1
-int load_string_pointers(char** dest_array, char* data, size_t data_size) {
-    dest_array[0] = (char*)&data[0];
-
-    for (int i = 0, j = 1; i < data_size - 1; i++) {
-        if (data[i] == '\0') {
-            dest_array[j++] = (char*)&data[i + 1];
-        }
-    }
-
-    return 1;
-}
-
 //! Function checks 2 arrays of strings for equality
 //! \param array1 pointer to first array of strings
-//! \param size1 size of first array
+//! \param size1  size of first array
 //! \param array2 pointer ro second array of strings
-//! \param size2 size of second array
-//! \return 1 if arrays are equal else 0
-int equal_arrays(char** array1, int size1, char** array2, size_t size2) {
+//! \param size2  size of second array
+//! \return       1 if arrays are equal else 0
+int equal_strings_array(const char** array1, size_t size1, const char** array2, size_t size2) {
     assert(array1 != NULL);
     assert(array2 != NULL);
     assert(array1 != array2);
+    assert(size1 != 0);
     assert(size2 != 0);
 
     if (size1 != size2) return 0;
     for (int i = 0; i < size1; i++) {
-        if (cmp_string(array1[i], array2[i]) != 0) return 0;
+        if (cmp_string_raw(array1[i], array2[i]) != 0) return 0;
     }
     return 1;
 }
 
-//! Function copies strings from source_array to dest_array (element-by-element)
-//! \param source_array pointer to source_array of strings
-//! \param source_size size of source_array
-//! \param dest_array pointer to dest_array.
-//!                   You should allocate memory for dest array before using this function
-//! \return pointer to dest_array with strings
-char** copy_str_array(char** source_array, size_t source_size, char** dest_array) {
-    assert(source_array != NULL);
-    assert(dest_array != NULL);
-    assert(source_array != dest_array);
-    assert(source_size != 0);
-
-    for (int i = 0; i < source_size; i++) {
-        dest_array[i] = source_array[i];
-    }
-
-    return dest_array;
-}
-
 //! Function prints array of strings
 //! \param array pointer to array of strings
-//! \param size size of array
-void print_array(char** array, size_t size) {
+//! \param size  size of array
+void print_strings(const char** array, size_t size) {
     assert(array != 0);
 
     printf("[ ");
     for (int i = 0; i < size; i++) {
-        printf("%s\n", array[i]);
+        printf("%s ", array[i]);
     }
     printf("]\n");
 }
@@ -176,19 +92,24 @@ void print_array(char** array, size_t size) {
 //! Function compare 2 strings (element-by-element from the beginning)
 //! \param str1 pointer to first string
 //! \param str2 pointer to second string
-//! \return 1 if string1 should stay after string2
-//!        -1 if string1 should stay before string2
-//!         0 if string1 equivalent with string2
+//! \return     1 if string1 should stay after string2
+//!            -1 if string1 should stay before string2
+//!             0 if string1 equivalent with string2
 int cmp_string(const void* str1, const void* str2) {
     assert(str1 != NULL);
     assert(str2 != NULL);
 
-    char* string1 = (char*) str1;
-    char* string2 = (char*) str2;
+    struct String struct1 = *(struct String*)str1;
+    char* string1 = struct1.string_ptr;
+    size_t len1 = struct1.len;
 
-    char* small_string = strlen(string1) < strlen(string2) ? string1 : string2;
+    struct String struct2 = *(struct String*)str2;
+    char* string2 = struct2.string_ptr;
+    size_t len2 = struct2.len;
 
-    for (int i = 0; i < strlen(small_string); i++) {
+    size_t small_size = len1 < len2 ? len1 : len2;
+
+    for (int i = 0; i < small_size; i++) {
         if (string1[i] > string2[i]){
             return 1;
         }
@@ -197,11 +118,29 @@ int cmp_string(const void* str1, const void* str2) {
         }
     }
 
-    if (strlen(string1) == strlen(string2)) {
-        return 0;
+    return (int)(len1 - len2);
+}
+
+int cmp_string_raw(const void* str1, const void* str2) {
+    assert(str1 != NULL);
+    assert(str2 != NULL);
+
+    char* string1 = (char*)str1;
+    char* string2 = (char*)str2;
+
+    int len1 = (int)strlen(string1), len2 = (int)strlen(string2);
+    size_t small_size = len1 < len2 ? len1 : len2;
+
+    for (int i = 0; i < small_size; i++) {
+        if (string1[i] > string2[i]){
+            return 1;
+        }
+        if (string1[i] < string2[i]) {
+            return -1;
+        }
     }
 
-    return (small_string == string1 ? -1 : 1);
+    return (int)(len1 - len2);
 }
 
 
@@ -212,66 +151,131 @@ int cmp_string(const void* str1, const void* str2) {
 //!        -1 if string1 should stay before string2
 //!         0 if string1 equivalent with string2
 int rev_cmp_string(const void* str1, const void* str2) {
-    char* rev1 = reverse((char*)str1);
-    char* rev2 = reverse((char*)str2);
-    int cmp = cmp_string(rev1, rev2);
 
-    free(rev1);
-    free(rev2);
 
-    return cmp;
+    return 0;
 }
 
-//! Function reverses string
-//! \param string pointer to string
-//! \return pointer to new reversed string
-char* reverse(char* string) {
-    int n = my_strlen(string);
-    char* new_string = (char*)calloc(n, sizeof(char));
+void swap(void* f_el, void* s_el, size_t el_size) {
+    for (int i = 0; i < el_size; i++) {
+        char tmp = *((char*)(f_el + i));
+        *((char*)(f_el + i)) = *((char*)(s_el + i));
+        *((char*)(s_el + i)) = tmp;
+    }
+}
 
-    for (int i = n - 1, j = 0; i >= 0; i--, j++) {
-        new_string[j] = string[i];
+int max_num_length(const int* data, size_t size) {
+    int max_el = data[0];
+
+    for (int i = 1; i < size; i++) {
+        int number = data[i];
+
+        if (number < 0) {
+            number = -(number * 10);
+        }
+
+        if (number > max_el) max_el = number;
     }
 
-    return new_string;
+    int length = 0;
+    while (max_el > 0) {
+        max_el /= 10;
+        length++;
+    }
+
+    return length;
 }
+
 
 //! Function sorts array of strings in place
 //! \param array pointer to array of strings
-//! \param size size of array
+//! \param el_size el_size of array
 //! \param first start index of sorted sequence (call function with first < 0)
 //! \param last end index of sorted sequence (call function with
 //! \note Function sorts elements in place
-void quick_sort(char** array, size_t size, int comparator(const void*, const void*)) {
+void quick_sort(void* array, size_t el_number, size_t el_size, int comparator(const void*, const void*)) {
     assert(array != NULL);
 
-    if (size == 0) {
-        return;
-    }
+    int left = 0;
+    int right = (int)el_number - 1;
 
-    int i = 0;
-    int j = (int)size - 1;
+    int bar_index = (int)el_number / 2;
 
-    int index = 0;
-    if (i != j) {
-        index = i + (rand() % (j - i));
-    }
-    char* barrier = clear_string(array[index]);
-
+    qsort_debug_str(array, el_number, left, right, bar_index, "Старт быстрой сортировки\n");
     do {
-        while (comparator(clear_string(array[i]), barrier) == -1) i++;
-        while (comparator(clear_string(array[j]), barrier) ==  1) j--;
-
-        if (i <= j) {
-            char* tmp = array[i];
-            array[i] = array[j];
-            array[j] = tmp;
-
-            i++;
-            j--;
+        while(comparator(array + left * el_size, array + bar_index * el_size) < 0) {
+            assert(left < el_number);
+            left++;
         }
-    } while (i <= j);
+        qsort_debug_str(array, el_number, left, right, bar_index, "Сдвинули левую границу\n");
+        while(comparator(array + right * el_size, array + bar_index * el_size) > 0) {
+            assert(right >= 0);
+            right--;
+        }
+        qsort_debug_str(array, el_number, left, right, bar_index, "Сдвинули правую границу\n");
 
-    if (j > 0)    quick_sort(array, j + 1, comparator);
-    if (i < size) quick_sort(&array[i], size - i, comparator);
+        if (left <= right) {
+            if      (bar_index == left)  bar_index = right;
+            else if (bar_index == right) bar_index = left;
+
+            swap(array + left * el_size, array + right * el_size, el_size);
+            qsort_debug_str(array, el_number, left, right, bar_index, "Меняем местами элементы\n");
+
+            left++;
+            right--;
+            qsort_debug_str(array, el_number, left, right, bar_index, "Меняем границы\n");
+        }
+    } while (left <= right);
+
+
+    if (right > 0) {
+        quick_sort(array, right + 1, el_size, comparator);
+    }
+    if (left < el_number) {
+        quick_sort(array + left * el_size, el_number - left, el_size, comparator);
+    }
+}
+
+void qsort_debug_int(const void* array, size_t el_num, int left, int right, int barrier, const char reason[]) {
+    const int* int_array = (const int*)array;
+    int max_len = max_num_length(int_array, el_num);
+
+    printf("%s", reason);
+    for (int i = 0; i < el_num; i++) {
+        printf("%*d ", max_len, i);
+    }
+    printf("\n");
+    for (int i = 0; i < el_num; i++) {
+        int color = 37;
+        if (i == left)         color = 32; // green
+        else if (i == right)   color = 34; // blue
+        else if (i == barrier) color = 35; // magenta
+
+        printf("\033[1;%dm%*d\033[0m ", color, max_len, int_array[i]);
+    }
+    printf("\n");
+    printf("left_el: %d, right_el: %d, barrier_el: %d\n", int_array[left], int_array[right], int_array[barrier]);
+    printf("left: %d, right: %d, barrier: %d\n\n", left, right, barrier);
+}
+
+void qsort_debug_str(const void* array, size_t el_num, int left, int right, int barrier, const char reason[]) {
+    const char** chr_array = (const char**)array;
+    int max_len = 1;
+
+    printf("%s", reason);
+    for (int i = 0; i < el_num; i++) {
+        printf("%*d ", max_len, i);
+    }
+    printf("\n");
+    for (int i = 0; i < el_num; i++) {
+        int color = 37;
+        if (i == left)         color = 32; // green
+        else if (i == right)   color = 34; // blue
+        else if (i == barrier) color = 35; // magenta
+
+        printf("\033[1;%dm%*s\033[0m ", color, max_len, chr_array[i]);
+    }
+    printf("\n");
+    printf("left_el: %s, right_el: %s, barrier_el: %s\n", chr_array[left], chr_array[right], chr_array[barrier]);
+    printf("left: %d, right: %d, barrier: %d\n\n", left, right, barrier);
 }

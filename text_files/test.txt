@@ -1,16 +1,10 @@
-12
-1    22
-
-abcdef
-abcd,!!! --eg
-
-gh
-i
-jkl
-
-m
-
-
-
-
-nop
+d
+r
+c
+a
+b
+z
+x
+y
+w
+e
