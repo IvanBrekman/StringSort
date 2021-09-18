@@ -76,10 +76,16 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/ivanbrekman/CLionProjects/StringSort/headers/clear_file.h">
+			<Option target="StringSort"/>
+		</Unit>
 		<Unit filename="/home/ivanbrekman/CLionProjects/StringSort/headers/errorlib.h">
 			<Option target="StringSort"/>
 		</Unit>
 		<Unit filename="/home/ivanbrekman/CLionProjects/StringSort/main.c">
+			<Option target="StringSort"/>
+		</Unit>
+		<Unit filename="/home/ivanbrekman/CLionProjects/StringSort/sources/clear_file.c">
 			<Option target="StringSort"/>
 		</Unit>
 		<Unit filename="/home/ivanbrekman/CLionProjects/StringSort/sources/file_funcs.c">

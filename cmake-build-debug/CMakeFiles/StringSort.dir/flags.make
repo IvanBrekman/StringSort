@@ -6,5 +6,5 @@ C_DEFINES =
 
 C_INCLUDES = 
 
-C_FLAGS =  -fpermissive -g
+C_FLAGS =  -fpermissive -g -g
 

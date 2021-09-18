@@ -6,49 +6,27 @@
 
 #IncludeRegexTransform: 
 
-/home/ivanbrekman/CLionProjects/StringSort/headers/errorlib.h
+/home/ivanbrekman/CLionProjects/StringSort/headers/clear_file.h
 
 /home/ivanbrekman/CLionProjects/StringSort/headers/file_funcs.h
-string_funcs.h
-/home/ivanbrekman/CLionProjects/StringSort/headers/string_funcs.h
-
-/home/ivanbrekman/CLionProjects/StringSort/headers/standard_str_func.h
 
 /home/ivanbrekman/CLionProjects/StringSort/headers/string_funcs.h
 
 /home/ivanbrekman/CLionProjects/StringSort/headers/test.h
 
 /home/ivanbrekman/CLionProjects/StringSort/main.c
-assert.h
--
 stdio.h
--
-malloc.h
 -
 string.h
 -
+stdlib.h
+-
 headers/test.h
 /home/ivanbrekman/CLionProjects/StringSort/headers/test.h
-headers/standard_str_func.h
-/home/ivanbrekman/CLionProjects/StringSort/headers/standard_str_func.h
 headers/string_funcs.h
 /home/ivanbrekman/CLionProjects/StringSort/headers/string_funcs.h
 headers/file_funcs.h
 /home/ivanbrekman/CLionProjects/StringSort/headers/file_funcs.h
-headers/errorlib.h
-/home/ivanbrekman/CLionProjects/StringSort/headers/errorlib.h
-
-/home/ivanbrekman/CLionProjects/StringSort/sources/string_funcs.c
-assert.h
--
-stdio.h
--
-stdlib.h
--
-string.h
--
-../headers/string_funcs.h
-/home/ivanbrekman/CLionProjects/StringSort/headers/string_funcs.h
-../headers/standard_str_func.h
-/home/ivanbrekman/CLionProjects/StringSort/headers/standard_str_func.h
+headers/clear_file.h
+/home/ivanbrekman/CLionProjects/StringSort/headers/clear_file.h
 

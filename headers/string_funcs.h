@@ -2,7 +2,7 @@
 // Created by ivanbrekman on 26.08.2021.
 //
 
-int letters_in_string(char* string);
+int letters_in_string(const char* string, int len);
 int replace(char* string, size_t size, char old_symbol, char new_symbol, int n_replace);
 
 int equal_strings_array(const char** array1, size_t size1, const char** array2, size_t size2);
@@ -18,4 +18,4 @@ int max_num_length(const int* data, size_t size);
 void quick_sort(void* array, size_t number, size_t el_size, int comparator(const void*, const void*));
 void qsort_debug_int(const void* array, size_t el_num, int left, int right, int barrier, const char reason[]);
 void qsort_debug_str(const void* array, size_t el_num, int left, int right, int barrier, const char reason[]);
-
+void qsort_debug_tex(const void* array, size_t el_num, int left, int right, int barrier, const char reason[]);

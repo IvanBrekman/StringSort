@@ -11,6 +11,7 @@
 #include "../headers/file_funcs.h"
 #include "../headers/string_funcs.h"
 #include "../headers/standard_str_func.h"
+#include "../headers/errorlib.h"
 
 struct compare_data {
     char* string1;
@@ -37,23 +38,23 @@ int test_string_sort() {
 int test_cmp_func() {
     printf("Testing compare function\n");
     struct compare_data data[] = {
-            {            "1",         "9", -1 },
+            {            "9",         "5", -2 },
             {           "aa",        "ab", -1 },
-            {            "a",         "a",  0 },
-            { "ghsiduhdfndj", "ghsiduhdf",  3 },
+            {            "",         "Иль Вечный жид, или Корсар,",  0 },
+            { "Иль Вечный жид, или Корсар,", "Что вам дано, то не влечет,",  3 },
             {     "aaaaaaaa",    "aaaaaa",  2 },
             {         "Test",      "test", -1 },
-            {         "TEST",      "TESt", -1 },
-            {    "123abc123", "123abc321", -1 },
+            {         "e",      "e", -1 },
+            {    "123abc123", "", -1 },
             {             "",          "",  0 },
-            {            "a",          "",  1 }
+            {            "!я отэ :урудс теоваЗ",          "?артсес ее ьрепет едг И",  0 }
     };
 
     size_t n = sizeof(data) / sizeof(data[0]);
     int error_status = 0;
 
     for (int i = 0; i < n; i++) {
-        int return_code = cmp_string_raw(data[i].string1, data[i].string2);
+        int return_code = cmp_string_raw(&data[i].string1, &data[i].string2);
 
         printf("Test №%d: ", i + 1);
         if (return_code == data[i].result) {
@@ -75,15 +76,15 @@ int test_sort_func() {
     printf("Testing sort function\n");
     struct sort_data s_data[] = {
             {
-                {"1", "9", "8", "7", "6", "5", "4", "2", "0", "3"},
+                {"b", "z", "x", "w", "y", "e", "r", "a", "d", "c"},
                 10,
                 {"b", "a", "c", "d", "e", "r", "w", "x", "y", "z"}
             },
-                //{
-                //{"KaIPLbxADslJGghf","PyOgCYDeVXSGneOY","KElNEPxvzKTDDrHY","ZGyyIlfqoCadPaxy","YoVZoYBdFVrSMEjT","OBqcrmTDWHUiTwNC","OcoavApvhbsOubrB","ldvxeXTdqwDTleOo","ETVLUOpVsboHYVHm","sBvyNqDMOFcgTJQk"},
-                //10,
-                //{"ETVLUOpVsboHYVHm","KElNEPxvzKTDDrHY","KaIPLbxADslJGghf","OBqcrmTDWHUiTwNC","OcoavApvhbsOubrB","PyOgCYDeVXSGneOY","YoVZoYBdFVrSMEjT","ZGyyIlfqoCadPaxy","ldvxeXTdqwDTleOo","sBvyNqDMOFcgTJQk"}
-                //}
+            {
+                {"KaIPLbxADslJGghf","PyOgCYDeVXSGneOY","KElNEPxvzKTDDrHY","ZGyyIlfqoCadPaxy","YoVZoYBdFVrSMEjT","OBqcrmTDWHUiTwNC","OcoavApvhbsOubrB","ldvxeXTdqwDTleOo","ETVLUOpVsboHYVHm","sBvyNqDMOFcgTJQk"},
+                10,
+                {"ETVLUOpVsboHYVHm","KElNEPxvzKTDDrHY","KaIPLbxADslJGghf","OBqcrmTDWHUiTwNC","OcoavApvhbsOubrB","PyOgCYDeVXSGneOY","YoVZoYBdFVrSMEjT","ZGyyIlfqoCadPaxy","ldvxeXTdqwDTleOo","sBvyNqDMOFcgTJQk"}
+            }
     };
     int n = sizeof(s_data) / sizeof(s_data[0]);
     int error_status = 0;
@@ -94,9 +95,8 @@ int test_sort_func() {
 
         char** array = calloc(size, sizeof(char*));
         memcpy(array, s_data[i].init_array, sizeof(s_data[i].init_array));
-        print_strings((const char**)array, size);
 
-        qsort(array, size, sizeof(array[0]), cmp_string_raw);
+        quick_sort(array, size, sizeof(array[0]), cmp_string_raw);
 
         printf("Test №%d: ", i + 1);
         if (equal_strings_array((const char**)array, size, (const char**)s_data[i].sorted_array, size)) {
@@ -105,48 +105,13 @@ int test_sort_func() {
             error_status = 1;
             printf("Failed - expected: ");
             print_strings((const char**)s_data[i].sorted_array, size);
-            printf(",\n                       got: ");
+            printf("                       got: ");
             print_strings((const char**)array, size);
-            printf(".\n                Input data: ");
+            printf("                Input data: ");
             print_strings((const char**)s_data[i].init_array, size);
-            printf("\n");
         }
     }
     printf("\n\n");
 
     return !error_status;
-}
-
-int test_std_string_func() {
-    // test_functinos
-    my_puts("hahaha!");
-    printf("%d\n", my_strlen("абсдек"));
-    printf("%d\n", *my_strchr("abcdefgh", '\0'));
-
-    char* string = calloc(20, sizeof(char));
-    my_puts(my_strncpy(string, "I love you!", 5));
-
-    my_puts(my_strcpy(string, "bbbaaaccceee"));
-    my_puts(string);
-    my_strdup(string);
-
-    my_puts(my_strcat("abcd", "efghi"));
-    my_puts(my_strncat("abcd", "efghi", 10));
-
-    FILE * fp = open_file(my_strcat("/home/ivanbrekman/CLionProjects/StringSort/text_files/", "test.txt"), "r");
-    free(string);
-    string = calloc(20, sizeof(char));
-
-    while (my_fgets(string, 5, fp) != NULL) {
-        my_puts(string);
-    }
-    fseek(fp, 0, SEEK_SET);
-
-    printf("test!!\n");
-    my_puts(my_fgets(string, 5, fp));
-
-    getchar();
-    getchar();
-
-    return 1;
 }

@@ -153,6 +153,30 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/StringSort.dir/build.make CMakeFiles/StringSort.dir/main.c.s
 .PHONY : main.c.s
 
+sources/clear_file.o: sources/clear_file.c.o
+.PHONY : sources/clear_file.o
+
+# target to build an object file
+sources/clear_file.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/StringSort.dir/build.make CMakeFiles/StringSort.dir/sources/clear_file.c.o
+.PHONY : sources/clear_file.c.o
+
+sources/clear_file.i: sources/clear_file.c.i
+.PHONY : sources/clear_file.i
+
+# target to preprocess a source file
+sources/clear_file.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/StringSort.dir/build.make CMakeFiles/StringSort.dir/sources/clear_file.c.i
+.PHONY : sources/clear_file.c.i
+
+sources/clear_file.s: sources/clear_file.c.s
+.PHONY : sources/clear_file.s
+
+# target to generate assembly for a file
+sources/clear_file.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/StringSort.dir/build.make CMakeFiles/StringSort.dir/sources/clear_file.c.s
+.PHONY : sources/clear_file.c.s
+
 sources/file_funcs.o: sources/file_funcs.c.o
 .PHONY : sources/file_funcs.o
 
@@ -261,6 +285,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... sources/clear_file.o"
+	@echo "... sources/clear_file.i"
+	@echo "... sources/clear_file.s"
 	@echo "... sources/file_funcs.o"
 	@echo "... sources/file_funcs.i"
 	@echo "... sources/file_funcs.s"

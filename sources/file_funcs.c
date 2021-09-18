@@ -110,7 +110,9 @@ struct Text get_text_from_file(const char* filename) {
     int f_size = file_size(filename);
 
     char* data = (char*)calloc(f_size + 1, sizeof(char));
-    fread(data, sizeof(char), f_size, file);
+    int bytes = (int)fread(data, sizeof(char), f_size, file);
+    printf("%d %d\n", bytes, f_size);
+    f_size = f_size > bytes ? bytes : f_size;
 
     if (data[f_size - 1] != '\n') {
         data[f_size] = '\n';
@@ -121,6 +123,7 @@ struct Text get_text_from_file(const char* filename) {
     text.data = data;
     text.data_size = f_size;
     text.lines = replace(data, f_size, '\n', '\0', -1);
+    printf("%zd \n", text.lines);
 
     text.text = calloc(text.lines, sizeof(struct String));
     load_string_pointers(text.text, text.data, text.data_size);

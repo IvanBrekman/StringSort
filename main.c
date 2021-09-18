@@ -5,6 +5,7 @@
 #include "headers/test.h"
 #include "headers/string_funcs.h"
 #include "headers/file_funcs.h"
+#include "headers/clear_file.h"
 
 #define FREE(ptr) do { free(ptr); (ptr) = NULL; } while(0)
 
@@ -32,7 +33,8 @@ int main(int argc, char** argv) {
 
     return 0;
 #endif
-    test_string_sort();
+    //clear_text_file("/home/ivanbrekman/CLionProjects/StringSort/text_files/origin.txt", "/home/ivanbrekman/CLionProjects/StringSort/text_files/data.txt", letters_in_string);
+    //test_string_sort();
 
     char* in_filename_input  = calloc(80, sizeof(char));
     char* out_filename_input = calloc(80, sizeof(char));
@@ -55,15 +57,14 @@ int main(int argc, char** argv) {
     }
 
     struct Text data = get_text_from_file(in_filename);
-    print_text(&data);
 
-//    qsort(data.text, data.lines, sizeof(data.text[0]), cmp_string);
-//    print_text(data);
+    qsort(data.text, data.lines, sizeof(data.text[0]), cmp_string);
+    print_text(&data);
 
     write_text_to_file(out_filename, "w", &data);
     write_strings_to_file(out_filename, "a", BLOCK_DELIMITERS, 3);
 
-//    quick_sort(clear_strings, new_size, rev_cmp_string);
+    quick_sort(data.text, data.lines, sizeof(data.text[0]), rev_cmp_string);
     write_text_to_file(out_filename, "a", &data);
     write_strings_to_file(out_filename, "a", BLOCK_DELIMITERS, 3);
 
@@ -80,6 +81,14 @@ int main(int argc, char** argv) {
     return 0;
 }
 /*
+
 /home/ivanbrekman/CLionProjects/StringSort/text_files/test.txt
 /home/ivanbrekman/CLionProjects/StringSort/text_files/out.txt
- */
+
+/home/ivanbrekman/CLionProjects/StringSort/text_files/origin.txt
+/home/ivanbrekman/CLionProjects/StringSort/text_files/out.txt
+
+/home/ivanbrekman/CLionProjects/StringSort/text_files/data.txt
+/home/ivanbrekman/CLionProjects/StringSort/text_files/out.txt
+
+*/
