@@ -4,8 +4,12 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <stddef.h>
+#include <malloc.h>
+#include <wchar.h>
 
 #include "../headers/string_funcs.h"
 #include "../headers/file_funcs.h"
@@ -14,13 +18,13 @@
 //! Experimental function to detect russian letters in string
 //! \param  string pointer to string
 //! \return 1 if russian letters in string else 0
-int letters_in_string(const char* string, int len) {
+int letters_in_string(const wchar_t* string, int len) {
     assert(string != NULL);
 
     for (int i = 0; i < len; i++) {
         int code = (int)string[i];
 
-        if (code < 0) {
+        if (code >= 1024) {
             return 1;
         }
     }
@@ -49,7 +53,7 @@ int has_alnum(const char* string) {
 //! \return           number of replacements
 //! \note function need string size, because if you want to
 //!       replace '\0' symbol strlen function wont work correctly
-int replace(char* string, size_t size, char old_symbol, char new_symbol, int n_replace) {
+int replace(wchar_t* string, size_t size, wchar_t old_symbol, wchar_t new_symbol, int n_replace) {
     assert(string != NULL);
 
     int n_rep = 0;
@@ -111,21 +115,21 @@ int cmp_string(const void* str1, const void* str2) {
     assert(str2 != NULL);
 
     struct String struct1 = *(struct String*)str1;
-    char* string1 = struct1.string_ptr;
+    wchar_t* string1 = struct1.string_ptr;
     int len1 = struct1.len;
 
     struct String struct2 = *(struct String*)str2;
-    char* string2 = struct2.string_ptr;
+    wchar_t* string2 = struct2.string_ptr;
     int len2 = struct2.len;
 
     int index1 = 0, index2 = 0;
     int n_let1 = 0, n_let2 = 0;
     while (index1 < len1 && index2 < len2) {
-        if (ispunct(string1[index1])) {
+        if (!isalpha((char)string1[index1]) && ((int)string1[index1] < 1024)) {
             index1++;
             continue;
         }
-        if (ispunct(string2[index2])) {
+        if (!isalpha((char)string2[index2]) && ((int)string2[index2] < 1024)) {
             index2++;
             continue;
         }
@@ -195,24 +199,25 @@ int rev_cmp_string(const void* str1, const void* str2) {
     assert(str2 != NULL);
 
     const struct String struct1 = *(const struct String*)str1;
-    char* string1 = struct1.string_ptr;
+    wchar_t* string1 = struct1.string_ptr;
 
     struct String struct2 = *(struct String*)str2;
-    char* string2 = struct2.string_ptr;
+    wchar_t* string2 = struct2.string_ptr;
 
     int index1 = (int)(struct1.len) - 1, index2 = (int)(struct2.len) - 1;
     int n_let1 = 0, n_let2 = 0;
     while (index1 >= 0 && index2 >= 0) {
-        if (ispunct(string1[index1])) {
+        //rev_cmp_debug(string1, string2, index1, index2, "Сравниваю элементы строк");
+        if (!isalpha((char)string1[index1]) && ((int)string1[index1] < 1024)) {
             index1--;
             continue;
         }
-        if (ispunct(string2[index2])) {
+        if (!isalpha((char)string2[index2]) && ((int)string2[index2] < 1024)) {
             index2--;
             continue;
         }
 
-        if (string1[index1] > string2[index2]){
+        if (string1[index1] > string2[index2]) {
             return 1;
         }
         if (string1[index1] < string2[index2]) {
@@ -229,10 +234,22 @@ int rev_cmp_string(const void* str1, const void* str2) {
 }
 
 void swap(void* f_el, void* s_el, size_t el_size) {
-    for (int i = 0; i < el_size; i++) {
-        char tmp = *((char*)(f_el + i));
-        *((char*)(f_el + i)) = *((char*)(s_el + i));
-        *((char*)(s_el + i)) = tmp;
+    while (el_size > 0) {
+        if (el_size >= 8) {
+            unsigned long long tmp       = *((unsigned long long*)f_el);
+            *((unsigned long long*)f_el) = *((unsigned long long*)s_el);
+            *((unsigned long long*)s_el) = tmp;
+        } else {
+            for (int i = 0; i < el_size; i++) {
+                char tmp = *((char*)(f_el + i));
+                *((char*)(f_el + i)) = *((char*)(s_el + i));
+                *((char*)(s_el + i)) = tmp;
+            }
+            break;
+        }
+        f_el += 8;
+        s_el += 8;
+        el_size -= 8;
     }
 }
 int max_num_length(const int* data, size_t size) {
@@ -273,7 +290,7 @@ void quick_sort(void* array, size_t el_number, size_t el_size, int comparator(co
 
     int bar_index = (int)el_number / 2;
 
-    qsort_debug_tex(array, el_number, left, right, bar_index, "Старт быстрой сортировки\n");
+    //qsort_debug_tex(array, el_number, left, right, bar_index, "Старт быстрой сортировки\n");
     do {
         while(comparator(array + left * el_size, array + bar_index * el_size) < 0) {
             assert(left < el_number);
@@ -281,23 +298,23 @@ void quick_sort(void* array, size_t el_number, size_t el_size, int comparator(co
             //printf("Результат сравнения: %d (строк \"%s\" \"%s\")\n", comparator(array + left * el_size, array + bar_index * el_size), *(char**)(array + left * el_size), *(char**)(array + bar_index * el_size));
             //qsort_debug_str(array, el_number, left, right, bar_index, "Сравниваю левую границу с барьером\n");
         }
-        qsort_debug_tex(array, el_number, left, right, bar_index, "Сдвинули левую границу\n");
+        //qsort_debug_tex(array, el_number, left, right, bar_index, "Сдвинули левую границу\n");
         while(comparator(array + right * el_size, array + bar_index * el_size) > 0) {
             assert(right >= 0);
             right--;
         }
-        qsort_debug_tex(array, el_number, left, right, bar_index, "Сдвинули правую границу\n");
+        //qsort_debug_tex(array, el_number, left, right, bar_index, "Сдвинули правую границу\n");
 
         if (left <= right) {
             if      (bar_index == left)  bar_index = right;
             else if (bar_index == right) bar_index = left;
 
             swap(array + left * el_size, array + right * el_size, el_size);
-            qsort_debug_tex(array, el_number, left, right, bar_index, "Меняем местами элементы\n");
+            //qsort_debug_tex(array, el_number, left, right, bar_index, "Меняем местами элементы\n");
 
             left++;
             right--;
-            qsort_debug_tex(array, el_number, left, right, bar_index, "Меняем границы\n");
+            //qsort_debug_tex(array, el_number, left, right, bar_index, "Меняем границы\n");
         }
     } while (left <= right);
 
@@ -307,6 +324,28 @@ void quick_sort(void* array, size_t el_number, size_t el_size, int comparator(co
     if (left < el_number) {
         quick_sort(array + left * el_size, el_number - left, el_size, comparator);
     }
+}
+
+void rev_cmp_debug(const wchar_t* str1, const wchar_t* str2, int index1, int index2, const char reason[]) {
+    printf("%s\n", reason);
+
+    printf("\"");
+    for (int i = 0; str1[i] != '\0'; i++) {
+        int color = 37;
+        if (i == index1) color = 32; // green
+
+        printf("\033[1;%dm%lc\033[0m", color, str1[i]);
+    }
+    printf("\"\n\"");
+
+    for (int i = 0; str2[i] != '\0'; i++) {
+        int color = 37;
+        if (i == index2) color = 34; // blue
+
+        printf("\033[1;%dm%lc\033[0m", color, str2[i]);
+    }
+    printf("\"\n");
+    printf("index1: %d index2: %d\n", index1, index2);
 }
 
 void qsort_debug_int(const void* array, size_t el_num, int left, int right, int barrier, const char reason[]) {
@@ -366,9 +405,9 @@ void qsort_debug_tex(const void* array, size_t el_num, int left, int right, int 
         else if (i == right)   color = 34; // blue
         else if (i == barrier) color = 35; // magenta
 
-        printf("\033[1;%dm%*s\033[0m ", color, max_len, chr_array[i].string_ptr);
+        wprintf(L"\033[1;%dm%*s\033[0m ", color, max_len, chr_array[i].string_ptr);
     }
     printf("\n");
-    printf("left_el: %s, right_el: %s, barrier_el: %s\n", chr_array[left].string_ptr, chr_array[right].string_ptr, chr_array[barrier].string_ptr);
+    wprintf(L"left_el: %s, right_el: %s, barrier_el: %s\n", chr_array[left].string_ptr, chr_array[right].string_ptr, chr_array[barrier].string_ptr);
     printf("el_num: %zd, left: %d, right: %d, barrier: %d\n\n", el_num, left, right, barrier);
 }

@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <locale.h>
+#include <wchar.h>
 
 #include "headers/test.h"
 #include "headers/string_funcs.h"
@@ -15,11 +17,8 @@ const char* BLOCK_DELIMITERS[] = {
     "**************************************************************************************************************************************************"
 };
 
-int int_cmp(const void* a, const void* b) {
-    return *((const int*)a) - *((const int*)b);
-}
-
 int main(int argc, char** argv) {
+    setlocale(LC_ALL, "en_US.utf8");
 
 #if 0
     char arr1[] = {'a', 'h', 'b', 'g', 'c', 'f', 'd', 'k', 'e'};
@@ -32,6 +31,24 @@ int main(int argc, char** argv) {
     printf("\n");
 
     return 0;
+#endif
+#if 0
+//    struct String str1 = {"И все равно: надежда им", 23};
+//    struct String str2 = {"Да, видно, почта задержала. -", 29};
+//    wchar_t sym =  L'А';
+//
+//    printf("%d\n", rev_cmp_string(&str1, &str2));
+    printf("%d", (char)L'-');
+    return 1;
+#endif
+#if 0
+    FILE * pFile;
+    wchar_t sentence [256] = L"sdfghjkl";
+
+    pFile = fopen ("mylog.txt","a");
+    fputws (sentence,pFile);
+    fclose (pFile);
+    wprintf(L"asdf");
 #endif
     //clear_text_file("/home/ivanbrekman/CLionProjects/StringSort/text_files/origin.txt", "/home/ivanbrekman/CLionProjects/StringSort/text_files/data.txt", letters_in_string);
     //test_string_sort();
@@ -79,6 +96,10 @@ int main(int argc, char** argv) {
     free_text(&data);
 
     return 0;
+}
+
+int int_cmp(const void* a, const void* b) {
+    return *((const int*)a) - *((const int*)b);
 }
 /*
 

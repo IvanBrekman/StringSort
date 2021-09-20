@@ -12,6 +12,7 @@ CMakeFiles/StringSort.dir/sources/clear_file.c.o
  /home/ivanbrekman/CLionProjects/StringSort/headers/string_funcs.h
  /home/ivanbrekman/CLionProjects/StringSort/sources/clear_file.c
 CMakeFiles/StringSort.dir/sources/file_funcs.c.o
+ /home/ivanbrekman/CLionProjects/StringSort/headers/errorlib.h
  /home/ivanbrekman/CLionProjects/StringSort/headers/file_funcs.h
  /home/ivanbrekman/CLionProjects/StringSort/headers/string_funcs.h
  /home/ivanbrekman/CLionProjects/StringSort/sources/file_funcs.c

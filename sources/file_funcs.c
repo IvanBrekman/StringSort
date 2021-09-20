@@ -4,12 +4,15 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <malloc.h>
+#include <wchar.h>
 #include <sys/stat.h>
 
 #include "../headers/string_funcs.h"
 #include "../headers/file_funcs.h"
+#include "../headers/errorlib.h"
 
 
 void free_text(struct Text* data) {
@@ -38,7 +41,7 @@ void print_text(const struct Text* data) {
 
     printf("[\n");
     for (int i = 0; i < data->lines; i++) {
-        printf(" %s\n", data->text[i].string_ptr);
+        printf(" %ls\n", data->text[i].string_ptr);
     }
     printf("]\n");
 }
@@ -48,16 +51,16 @@ void print_text(const struct Text* data) {
 //! \param data       analyzed data
 //! \param data_size  data size
 //! \return           1
-int load_string_pointers(struct String* strings_storage, const char* data, size_t data_size) {
+int load_string_pointers(struct String* strings_storage, const wchar_t* data, size_t data_size) {
     assert(strings_storage != NULL);
     assert(data != NULL);
 
-    char* start_ptr = (char*)data;
+    wchar_t* start_ptr = (wchar_t*)data;
 
     for (int i = 0, str_index = 0; i < data_size; i++) {
-        if (data[i] == '\0') {
-            char* end_ptr = NULL;
-            end_ptr = (char*)&data[i];
+        if (data[i] == L'\0') {
+            wchar_t* end_ptr = NULL;
+            end_ptr = (wchar_t*)&data[i];
 
             struct String string = {
                     start_ptr,
@@ -65,7 +68,7 @@ int load_string_pointers(struct String* strings_storage, const char* data, size_
             };
             strings_storage[str_index++] = string;
 
-            start_ptr = (char*)&data[i + 1];
+            start_ptr = (wchar_t*)&data[i + 1];
         }
     }
 
@@ -111,7 +114,6 @@ struct Text get_text_from_file(const char* filename) {
 
     char* data = (char*)calloc(f_size + 1, sizeof(char));
     int bytes = (int)fread(data, sizeof(char), f_size, file);
-    printf("%d %d\n", bytes, f_size);
     f_size = f_size > bytes ? bytes : f_size;
 
     if (data[f_size - 1] != '\n') {
@@ -119,14 +121,18 @@ struct Text get_text_from_file(const char* filename) {
         f_size++;
     }
 
+    wchar_t* wdata = (wchar_t*)calloc(f_size + 1, sizeof(wchar_t));
+    int fw_size = (int)mbstowcs(wdata, data, f_size) + 1;
+    free(data);
+
     struct Text text = {};
-    text.data = data;
-    text.data_size = f_size;
-    text.lines = replace(data, f_size, '\n', '\0', -1);
-    printf("%zd \n", text.lines);
+    text.data = wdata;
+    text.data_size = fw_size;
+    text.lines = replace(wdata, f_size, L'\n', L'\0', -1);
 
     text.text = calloc(text.lines, sizeof(struct String));
     load_string_pointers(text.text, text.data, text.data_size);
+    print_text(&text);
     
     fclose(file);
     return text;
@@ -151,7 +157,12 @@ int write_text_to_file(const char* filename, const char mode[], const struct Tex
 
     int n_wr_strings = 0;
     for (n_wr_strings = 0; n_wr_strings < data->lines; n_wr_strings++) {
-        fputs(data->text[n_wr_strings].string_ptr, file);
+        wprintf(data->text[n_wr_strings].string_ptr);
+        wprintf(L"data");
+        printf("1\n");
+        dbg();
+        dbg();
+        fputws(data->text[n_wr_strings].string_ptr, file);
         fputs("\n", file);
     }
 
@@ -178,12 +189,12 @@ int write_buffer_to_file(const char* filename, const char mode[], const struct T
     }
 
     int n_wr_strings = 0;
-    char* start_ptr = data->data;
+    wchar_t* start_ptr = data->data;
     for (n_wr_strings = 0; n_wr_strings < data->lines; n_wr_strings++) {
-        fputs(start_ptr, file);
+        fputws(start_ptr, file);
         fputs("\n", file);
 
-        char* end_ptr = strchr(start_ptr, '\0');
+        wchar_t* end_ptr = wcschr(start_ptr, '\0');
         start_ptr = end_ptr + 1;
     }
 

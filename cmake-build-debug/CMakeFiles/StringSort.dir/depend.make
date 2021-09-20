@@ -12,6 +12,7 @@ CMakeFiles/StringSort.dir/sources/clear_file.c.o: \
  ../headers/string_funcs.h \
  ../sources/clear_file.c
 CMakeFiles/StringSort.dir/sources/file_funcs.c.o: \
+ ../headers/errorlib.h \
  ../headers/file_funcs.h \
  ../headers/string_funcs.h \
  ../sources/file_funcs.c

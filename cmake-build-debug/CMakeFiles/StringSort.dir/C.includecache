@@ -21,6 +21,10 @@ string.h
 -
 stdlib.h
 -
+locale.h
+-
+wchar.h
+-
 headers/test.h
 /home/ivanbrekman/CLionProjects/StringSort/headers/test.h
 headers/string_funcs.h
@@ -29,4 +33,16 @@ headers/file_funcs.h
 /home/ivanbrekman/CLionProjects/StringSort/headers/file_funcs.h
 headers/clear_file.h
 /home/ivanbrekman/CLionProjects/StringSort/headers/clear_file.h
+
+/home/ivanbrekman/CLionProjects/StringSort/sources/clear_file.c
+bits/types/FILE.h
+-
+stdio.h
+-
+wchar.h
+-
+../headers/file_funcs.h
+/home/ivanbrekman/CLionProjects/StringSort/headers/file_funcs.h
+../headers/string_funcs.h
+/home/ivanbrekman/CLionProjects/StringSort/headers/string_funcs.h
 
