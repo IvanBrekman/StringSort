@@ -2,12 +2,10 @@
 #include <string.h>
 #include <stdlib.h>
 #include <locale.h>
-#include <wchar.h>
 
 #include "headers/test.h"
 #include "headers/string_funcs.h"
 #include "headers/file_funcs.h"
-#include "headers/clear_file.h"
 
 #define FREE(ptr) do { free(ptr); (ptr) = NULL; } while(0)
 
@@ -50,7 +48,6 @@ int main(int argc, char** argv) {
     fclose (pFile);
     wprintf(L"asdf");
 #endif
-    //clear_text_file("/home/ivanbrekman/CLionProjects/StringSort/text_files/origin.txt", "/home/ivanbrekman/CLionProjects/StringSort/text_files/data.txt", letters_in_string);
     //test_string_sort();
 
     char* in_filename_input  = calloc(80, sizeof(char));
@@ -76,7 +73,6 @@ int main(int argc, char** argv) {
     struct Text data = get_text_from_file(in_filename);
 
     qsort(data.text, data.lines, sizeof(data.text[0]), cmp_string);
-    print_text(&data);
 
     write_text_to_file(out_filename, "w", &data);
     write_strings_to_file(out_filename, "a", BLOCK_DELIMITERS, 3);
@@ -106,7 +102,7 @@ int int_cmp(const void* a, const void* b) {
 /home/ivanbrekman/CLionProjects/StringSort/text_files/test.txt
 /home/ivanbrekman/CLionProjects/StringSort/text_files/out.txt
 
-/home/ivanbrekman/CLionProjects/StringSort/text_files/origin.txt
+/home/ivanbrekman/CLionProjects/StringSort/text_files/clear_onegin.txt
 /home/ivanbrekman/CLionProjects/StringSort/text_files/out.txt
 
 /home/ivanbrekman/CLionProjects/StringSort/text_files/data.txt

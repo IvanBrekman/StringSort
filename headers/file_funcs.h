@@ -18,7 +18,7 @@ struct Text {
 void free_text(struct Text* data);
 void free_string(struct String* string);
 
-int load_string_pointers(struct String* strings_storage, const wchar_t* data, size_t data_size);
+int load_string_pointers(struct Text* text);
 void print_text(const struct Text* data);
 
 FILE* open_file(const char* filename, const char mode[]);
